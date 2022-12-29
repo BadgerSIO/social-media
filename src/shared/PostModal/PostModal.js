@@ -1,6 +1,29 @@
 import React from "react";
+import { useForm } from "react-hook-form";
 import { MdClose } from "react-icons/md";
-const PostModal = () => {
+import { BiImageAdd } from "react-icons/bi";
+const PostModal = ({ setMind }) => {
+  let imghostKey = process.env.REACT_APP_imgbbkey;
+  console.log(imghostKey);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const postSubmit = (data) => {
+    const image = data.image[0];
+    const formdata = new FormData();
+    formdata.append("image", image);
+    const url = `https://api.imgbb.com/1/upload?key=${imghostKey}`;
+    fetch(url, {
+      method: "POST",
+      body: formdata,
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data?.data?.display_url));
+
+    setMind(false);
+  };
   return (
     <>
       {/* Put this part before </body> tag */}
@@ -16,18 +39,31 @@ const PostModal = () => {
               <MdClose></MdClose>
             </label>
           </div>
-          <form>
+          <form onSubmit={handleSubmit(postSubmit)}>
             <textarea
               className="w-full bg-white/5 p-3 rounded-md text-sm placeholder:text-gray-500"
               rows={5}
               placeholder="Write whats on your mind"
+              {...register("postText", { required: true })}
             ></textarea>
+            {errors.postText && (
+              <p>
+                <small>field is required</small>
+              </p>
+            )}
+            <div className="w-auto relative flex justify-center items-center mt-5">
+              <BiImageAdd className="text-2xl mr-2 cursor-pointer" />
+              Add images
+              <input
+                type="file"
+                className="absolute  top-0 w-32 h-5 opacity-0 cursor-pointer"
+                {...register("image")}
+              />
+            </div>
+            <div className="modal-action">
+              <button className="btn w-full">post</button>
+            </div>
           </form>
-          <div className="modal-action">
-            <label htmlFor="post-modal" className="btn">
-              Yay!
-            </label>
-          </div>
         </div>
       </div>
     </>
