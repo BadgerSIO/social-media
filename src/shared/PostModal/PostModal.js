@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { MdClose } from "react-icons/md";
 import { BiImageAdd } from "react-icons/bi";
 import moment from "moment";
+import { toast } from "react-hot-toast";
 const PostModal = ({ setMind }) => {
   let imghostKey = process.env.REACT_APP_imgbbkey;
   const {
@@ -26,7 +27,20 @@ const PostModal = ({ setMind }) => {
           postText: data.postText,
           postTime: moment().format("Do MMM YYYY, h:mm a"),
         };
-        console.log(post);
+        fetch("http://localhost:5000/post", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(post),
+        })
+          .then((res) => res.json())
+          .then((resdata) => {
+            if (resdata?.acknowledged) {
+              return toast.success("Post added");
+            }
+            toast.error("Failed to post");
+          });
       });
 
     setMind(false);
