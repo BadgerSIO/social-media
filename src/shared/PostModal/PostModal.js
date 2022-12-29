@@ -2,9 +2,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { MdClose } from "react-icons/md";
 import { BiImageAdd } from "react-icons/bi";
+import moment from "moment";
 const PostModal = ({ setMind }) => {
   let imghostKey = process.env.REACT_APP_imgbbkey;
-  console.log(imghostKey);
   const {
     register,
     handleSubmit,
@@ -20,7 +20,14 @@ const PostModal = ({ setMind }) => {
       body: formdata,
     })
       .then((res) => res.json())
-      .then((data) => console.log(data?.data?.display_url));
+      .then((bbdata) => {
+        const post = {
+          imageUrl: bbdata.data.display_url,
+          postText: data.postText,
+          postTime: moment().format("Do MMM YYYY, h:mm a"),
+        };
+        console.log(post);
+      });
 
     setMind(false);
   };
