@@ -1,19 +1,34 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
-import Titles from "../../utilities/Titles";
 import moment from "moment";
 import { useQuery } from "@tanstack/react-query";
 import axios from "../../axios";
 import ReviewCard from "./ReviewCard";
 import { AiFillHeart } from "react-icons/ai";
 import { MdAddComment } from "react-icons/md";
+import { async } from "@firebase/util";
 
 const PostDetails = () => {
   const post = useLoaderData();
-  const { imageUrl, postText, postTime, _id, authorImage, authorName } = post;
+  const [likeBtn, setLikeBtn] = useState(false);
+  const { imageUrl, postText, postTime, _id, authorImage, authorName, likes } =
+    post;
+
+  const {
+    data: postThis,
+    isLoading: loadingLike,
+    refetch: likeRefetch,
+  } = useQuery({
+    queryKey: ["posts"],
+    queryFn: async () => {
+      const res = await axios.get(`/posts/${_id}`);
+      return res.data;
+    },
+  });
   const { user } = useContext(AuthContext);
+
   const {
     data: reviews,
     isLoading,
@@ -38,7 +53,7 @@ const PostDetails = () => {
     data["postedTime"] = moment().format("Do MMM YYYY, h:mm a");
     data["postId"] = _id;
     console.log(data);
-    fetch("http://localhost:5000/comment", {
+    fetch("https://social-media-server-nu.vercel.app/comment", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -51,7 +66,26 @@ const PostDetails = () => {
         reset();
       });
   };
-  if (isLoading) {
+  if (postThis?.likes?.includes(user?.email)) {
+    setLikeBtn(true);
+  }
+  //handle like
+  const handleLike = () => {
+    fetch(
+      `https://social-media-server-nu.vercel.app/posts/like/${_id}?email=${user?.email}`,
+      {
+        method: "PUT",
+      }
+    )
+      .then((res) => res.json())
+      .then((updateresult) => {
+        console.log(updateresult);
+        setLikeBtn(!likeBtn);
+        likeRefetch();
+      })
+      .catch((err) => console.error(err));
+  };
+  if (isLoading || loadingLike) {
     return <div>Loading</div>;
   }
   return (
@@ -68,7 +102,7 @@ const PostDetails = () => {
         </div>
       </div>
       <div className="p-5 space-y-3">
-        <h1 className="text-lg">{postText}</h1>
+        <p>{postText}</p>
         <div className="bg-white/10 rounded-md">
           <img src={imageUrl} alt={postText} className="w-full" />
         </div>
@@ -77,14 +111,18 @@ const PostDetails = () => {
         </p>
         <div className="flex justify-start space-x-5">
           <div
-            onClick={console.log("hello")}
+            onClick={handleLike}
             className=" flex justify-start items-center "
           >
             <AiFillHeart
-              className="text-white/30 text-4xl cursor-pointer p-2 rounded-full hover:bg-red-500/10 hover:text-red-500"
+              className={`${
+                likeBtn
+                  ? "text-red-500 text-4xl cursor-pointer p-2 rounded-full hover:bg-red-500/10 "
+                  : "text-white/30 text-4xl cursor-pointer p-2 rounded-full hover:bg-red-500/10 hover:text-red-500"
+              } `}
               title="Like"
             />
-            <span className="ml-1">0</span>
+            <span className="ml-1">{postThis?.likes?.length}</span>
           </div>
           <div className=" flex justify-start items-center ">
             <MdAddComment

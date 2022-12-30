@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "../../axios";
 import React, { useContext } from "react";
 import { FaUniversity } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
@@ -17,8 +16,10 @@ const Profile = () => {
   } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/user/${user?.email}`);
-      const data = res.json();
+      const res = await fetch(
+        `https://social-media-server-nu.vercel.app/user/${user?.email}`
+      );
+      const data = await res.json();
       return data;
     },
   });
