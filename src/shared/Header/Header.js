@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { CgFeed } from "react-icons/cg";
-import { BiHomeCircle } from "react-icons/bi";
+import { BiHomeCircle, BiLogOutCircle } from "react-icons/bi";
 import { TbMessages } from "react-icons/tb";
 import { MdOutlineAccountCircle } from "react-icons/md";
+import { AuthContext } from "../../context/AuthProvider";
 const Header = () => {
+  const { user, logout } = useContext(AuthContext);
   let activeNow =
     "text-lg p-2 rounded bg-secondary flex justify-center lg:justify-start items-center space-x-3 text-primary font-semibold";
   let notActive =
@@ -52,6 +54,19 @@ const Header = () => {
             <span className="hidden lg:block">Account</span>
           </NavLink>
         </li>
+        {user?.uid ? (
+          <li className="">
+            <button
+              onClick={logout}
+              className="btn btn-secondary flex items-center p-2 w-full group"
+            >
+              <BiLogOutCircle className="text-2xl mr-3 group-hover:mr-4" />
+              <span className="hidden lg:block">Logout</span>
+            </button>
+          </li>
+        ) : (
+          <></>
+        )}
       </ul>
     </nav>
   );

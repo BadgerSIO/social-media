@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { BiLogInCircle } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../context/AuthProvider";
 const Login = () => {
+  const { login } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -10,7 +12,9 @@ const Login = () => {
     reset,
   } = useForm();
   const loginUser = (data) => {
-    console.log(data);
+    login(data.userEmail, data.userPass).then((res) => {
+      console.log(res);
+    });
     reset();
   };
   return (

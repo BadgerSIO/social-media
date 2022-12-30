@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { MdClose } from "react-icons/md";
 import { BiImageAdd } from "react-icons/bi";
 import moment from "moment";
 import { toast } from "react-hot-toast";
+import { AuthContext } from "../../context/AuthProvider";
+import { Link } from "react-router-dom";
 const PostModal = ({ setMind }) => {
+  const { user } = useContext(AuthContext);
   let imghostKey = process.env.REACT_APP_imgbbkey;
   const {
     register,
@@ -47,7 +50,6 @@ const PostModal = ({ setMind }) => {
   };
   return (
     <>
-      {/* Put this part before </body> tag */}
       <input type="checkbox" id="post-modal" className="modal-toggle" />
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
@@ -60,31 +62,42 @@ const PostModal = ({ setMind }) => {
               <MdClose></MdClose>
             </label>
           </div>
-          <form onSubmit={handleSubmit(postSubmit)}>
-            <textarea
-              className="w-full bg-white/5 p-3 rounded-md text-sm placeholder:text-gray-500"
-              rows={5}
-              placeholder="Write whats on your mind"
-              {...register("postText", { required: true })}
-            ></textarea>
-            {errors.postText && (
-              <p>
-                <small>field is required</small>
-              </p>
-            )}
-            <div className="w-auto relative flex justify-center items-center mt-5">
-              <BiImageAdd className="text-2xl mr-2 cursor-pointer" />
-              Add images
-              <input
-                type="file"
-                className="absolute  top-0 w-32 h-5 opacity-0 cursor-pointer"
-                {...register("image")}
-              />
-            </div>
-            <div className="modal-action">
-              <button className="btn w-full">post</button>
-            </div>
-          </form>
+          {user ? (
+            <form onSubmit={handleSubmit(postSubmit)}>
+              <textarea
+                className="w-full bg-white/5 p-3 rounded-md text-sm placeholder:text-gray-500"
+                rows={5}
+                placeholder="Write whats on your mind"
+                {...register("postText", { required: true })}
+              ></textarea>
+              {errors.postText && (
+                <p>
+                  <small>field is required</small>
+                </p>
+              )}
+              <div className="w-auto relative flex justify-center items-center mt-5">
+                <BiImageAdd className="text-2xl mr-2 cursor-pointer" />
+                Add images
+                <input
+                  type="file"
+                  className="absolute  top-0 w-32 h-5 opacity-0 cursor-pointer"
+                  {...register("image")}
+                />
+              </div>
+              <div className="modal-action">
+                <button className="btn w-full">post</button>
+              </div>
+            </form>
+          ) : (
+            <>
+              <div className="space-y-4">
+                <p>Please login to create a post</p>
+                <Link className="btn btn-primary btn-sm" to="/login">
+                  Login here
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>

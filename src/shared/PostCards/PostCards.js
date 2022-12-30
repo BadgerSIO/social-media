@@ -1,15 +1,18 @@
 import React from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { MdAddComment } from "react-icons/md";
+import { Link } from "react-router-dom";
 const PostCards = ({ post }) => {
-  const { postText, imageUrl } = post;
+  const { postText, imageUrl, _id } = post;
   return (
     <div className="p-5 first:border-t last:border-b-0 border-b border-gray-700 hover:bg-white/5 space-y-3">
       <h1>{postText}</h1>
       <div className="bg-white/10 rounded-md">
         <img src={imageUrl} alt={postText} className="w-full" />
       </div>
-      <button className="btn btn-secondary btn-xs">See details</button>
+      <Link to={`/media/details/${_id}`} className="btn btn-secondary btn-xs">
+        See details
+      </Link>
       <div className="flex justify-start space-x-5">
         <div className=" flex justify-start items-center ">
           <AiFillHeart
