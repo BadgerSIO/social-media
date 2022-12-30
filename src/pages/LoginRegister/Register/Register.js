@@ -1,12 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineForm } from "react-icons/ai";
 import { FaUpload } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import moment from "moment";
+import { AuthContext } from "../../../context/AuthProvider";
+import { toast } from "react-hot-toast";
 
 const Register = () => {
   const [file, setFile] = useState([]);
-
+  const { signup, loading } = useContext(AuthContext);
+  let imghostKey = process.env.REACT_APP_imgbbkey;
   const handleChange = (e) => {
     setFile([...file, e.target.files[0]]);
   };
@@ -18,14 +22,58 @@ const Register = () => {
     reset,
   } = useForm();
   const signinUser = (data) => {
-    data["image"] = file;
-    console.log(data);
+    if (file.length) {
+      const image = file[0];
+      const formdata = new FormData();
+      formdata.append("image", image);
+      const url = `https://api.imgbb.com/1/upload?key=${imghostKey}`;
+      fetch(url, {
+        method: "POST",
+        body: formdata,
+      })
+        .then((res) => res.json())
+        .then((bbdata) => {
+          let imageUrl = bbdata.data.display_url;
+          let registerTime = moment().format("Do MMM YYYY, h:mm a");
+          let submitToDb = { ...data, registerTime };
+          delete submitToDb.userPass;
+          //firebase signup
+          const profile = {
+            displayName: data.username,
+            photoURL: imageUrl,
+          };
+          signup(data.userEmail, data.userPass, profile)
+            .then((res) => {
+              console.log(res);
+              addToDb(submitToDb);
+            })
+            .catch((err) => console.log(err));
+        });
+    }
+
     reset();
+  };
+  const addToDb = (userInfo) => {
+    fetch("http://localhost:5000/user", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(userInfo),
+    })
+      .then((res) => res.json())
+      .then((resdata) => {
+        if (resdata?.acknowledged) {
+          return toast.success("Registered Successfully");
+        }
+        toast.error("Failed to Register");
+      });
   };
   const fileInputRef = useRef(null);
   const handleButtonClick = (e) => {
     fileInputRef.current.click();
   };
+
   return (
     <>
       <form
