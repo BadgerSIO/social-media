@@ -29,6 +29,8 @@ const PostModal = ({ setMind }) => {
           imageUrl: bbdata.data.display_url,
           postText: data.postText,
           postTime: moment().format("Do MMM YYYY, h:mm a"),
+          authorName: user?.displayName,
+          authorImage: user?.photoURL,
         };
         fetch("http://localhost:5000/post", {
           method: "POST",

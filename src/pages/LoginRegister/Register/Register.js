@@ -2,13 +2,14 @@ import React, { useContext, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineForm } from "react-icons/ai";
 import { FaUpload } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import { AuthContext } from "../../../context/AuthProvider";
 import { toast } from "react-hot-toast";
 
 const Register = () => {
   const [file, setFile] = useState([]);
+  const navigate = useNavigate();
   const { signup, loading } = useContext(AuthContext);
   let imghostKey = process.env.REACT_APP_imgbbkey;
   const handleChange = (e) => {
@@ -46,6 +47,7 @@ const Register = () => {
             .then((res) => {
               console.log(res);
               addToDb(submitToDb);
+              navigate("/");
             })
             .catch((err) => console.log(err));
         });

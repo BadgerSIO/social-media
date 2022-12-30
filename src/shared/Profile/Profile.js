@@ -17,9 +17,9 @@ const Profile = () => {
   } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
-      const res = await axios.get(`/user/${user?.email}`);
-
-      return res.data;
+      const res = await fetch(`http://localhost:5000/user/${user?.email}`);
+      const data = res.json();
+      return data;
     },
   });
   refetch();

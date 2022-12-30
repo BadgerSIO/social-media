@@ -5,7 +5,6 @@ import { AuthContext } from "../../context/AuthProvider";
 import Titles from "../../utilities/Titles";
 import moment from "moment";
 import { useQuery } from "@tanstack/react-query";
-import { async } from "@firebase/util";
 import axios from "../../axios";
 import ReviewCard from "./ReviewCard";
 import { AiFillHeart } from "react-icons/ai";
@@ -13,7 +12,7 @@ import { MdAddComment } from "react-icons/md";
 
 const PostDetails = () => {
   const post = useLoaderData();
-  const { imageUrl, postText, postTime, _id } = post;
+  const { imageUrl, postText, postTime, _id, authorImage, authorName } = post;
   const { user } = useContext(AuthContext);
   const {
     data: reviews,
@@ -57,7 +56,17 @@ const PostDetails = () => {
   }
   return (
     <section>
-      <Titles>Details</Titles>
+      <div className=" flex space-x-2 sticky px-5 pt-5 pb-1 top-0 bg-black/10 backdrop-blur-lg">
+        <div className="w-14">
+          <div className="w-12 mask mask-squircle">
+            <img src={authorImage} alt="this" />
+          </div>
+        </div>
+        <div className="flex-grow">
+          <h1 className="font-bold">{authorName}</h1>
+          <p className="text-[10px] text-primary">{postTime}</p>
+        </div>
+      </div>
       <div className="p-5 space-y-3">
         <h1 className="text-lg">{postText}</h1>
         <div className="bg-white/10 rounded-md">
@@ -67,7 +76,10 @@ const PostDetails = () => {
           <small>Posted on : {postTime}</small>
         </p>
         <div className="flex justify-start space-x-5">
-          <div className=" flex justify-start items-center ">
+          <div
+            onClick={console.log("hello")}
+            className=" flex justify-start items-center "
+          >
             <AiFillHeart
               className="text-white/30 text-4xl cursor-pointer p-2 rounded-full hover:bg-red-500/10 hover:text-red-500"
               title="Like"
@@ -93,7 +105,9 @@ const PostDetails = () => {
               <small>Field is empty</small>
             </p>
           )}
-          <button className="btn btn-primary btn-xs">Submit</button>
+          <div className="flex justify-end mt-3">
+            <button className="btn btn-primary btn-xs">Submit</button>
+          </div>
         </form>
       </div>
       {reviews ? (

@@ -1,14 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import React from "react";
 import Titles from "../../utilities/Titles";
 import PostCards from "../../shared/PostCards/PostCards";
 const Media = () => {
-  const {
-    data: posts,
-    refetch,
-    isLoading,
-  } = useQuery({
+  const { data: posts, isLoading } = useQuery({
     queryKey: ["post"],
     queryFn: async () => {
       const res = await fetch("http://localhost:5000/posts");
@@ -22,11 +17,17 @@ const Media = () => {
   return (
     <section>
       <Titles>Media</Titles>
-      <div>
-        {posts.map((post, i) => (
-          <PostCards key={i} post={post}></PostCards>
-        ))}
-      </div>
+      {posts?.length > 0 ? (
+        <div>
+          {posts.map((post, i) => (
+            <PostCards key={i} post={post}></PostCards>
+          ))}
+        </div>
+      ) : (
+        <div className="p-5">
+          <p className="text-white">No post found</p>
+        </div>
+      )}
     </section>
   );
 };
