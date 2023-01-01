@@ -56,7 +56,7 @@ const Register = () => {
     reset();
   };
   const addToDb = (userInfo) => {
-    fetch("https://social-media-server-nu.vercel.app/user", {
+    fetch("http://localhost:5000/user", {
       method: "POST",
       headers: {
         "content-type": "application/json",

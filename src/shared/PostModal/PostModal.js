@@ -32,7 +32,7 @@ const PostModal = ({ setMind }) => {
           authorName: user?.displayName,
           authorImage: user?.photoURL,
         };
-        fetch("https://social-media-server-nu.vercel.app/post", {
+        fetch("http://localhost:5000/post", {
           method: "POST",
           headers: {
             "content-type": "application/json",

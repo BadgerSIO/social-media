@@ -30,7 +30,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: async ({ params }) =>
-          fetch(`https://social-media-server-nu.vercel.app/posts/${params.id}`),
+          fetch(`http://localhost:5000/posts/${params.id}`),
       },
     ],
   },

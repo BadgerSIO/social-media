@@ -8,13 +8,11 @@ import axios from "../../axios";
 import ReviewCard from "./ReviewCard";
 import { AiFillHeart } from "react-icons/ai";
 import { MdAddComment } from "react-icons/md";
-import { async } from "@firebase/util";
 
 const PostDetails = () => {
   const post = useLoaderData();
-  const [likeBtn, setLikeBtn] = useState(false);
-  const { imageUrl, postText, postTime, _id, authorImage, authorName, likes } =
-    post;
+  //   const [likeBtn, setLikeBtn] = useState(false);
+  const { imageUrl, postText, postTime, _id, authorImage, authorName } = post;
 
   const {
     data: postThis,
@@ -53,7 +51,7 @@ const PostDetails = () => {
     data["postedTime"] = moment().format("Do MMM YYYY, h:mm a");
     data["postId"] = _id;
     console.log(data);
-    fetch("https://social-media-server-nu.vercel.app/comment", {
+    fetch("http://localhost:5000/comment", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -66,21 +64,18 @@ const PostDetails = () => {
         reset();
       });
   };
-  if (postThis?.likes?.includes(user?.email)) {
-    setLikeBtn(true);
-  }
+  //   if (postThis?.likes?.includes(user?.email)) {
+  //     setLikeBtn(true);
+  //   }
   //handle like
   const handleLike = () => {
-    fetch(
-      `https://social-media-server-nu.vercel.app/posts/like/${_id}?email=${user?.email}`,
-      {
-        method: "PUT",
-      }
-    )
+    fetch(`http://localhost:5000/posts/like/${_id}?email=${user?.email}`, {
+      method: "PUT",
+    })
       .then((res) => res.json())
       .then((updateresult) => {
         console.log(updateresult);
-        setLikeBtn(!likeBtn);
+        // setLikeBtn(!likeBtn);
         likeRefetch();
       })
       .catch((err) => console.error(err));
@@ -116,8 +111,8 @@ const PostDetails = () => {
           >
             <AiFillHeart
               className={`${
-                likeBtn
-                  ? "text-red-500 text-4xl cursor-pointer p-2 rounded-full hover:bg-red-500/10 "
+                postThis?.likes?.includes(user?.email)
+                  ? "text-red-500 text-4xl cursor-pointer p-2 rounded-full  "
                   : "text-white/30 text-4xl cursor-pointer p-2 rounded-full hover:bg-red-500/10 hover:text-red-500"
               } `}
               title="Like"

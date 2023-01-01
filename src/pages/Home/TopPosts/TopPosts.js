@@ -1,15 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
+import axios from "../../../axios";
 import React from "react";
 import PostCards from "../../../shared/PostCards/PostCards";
 
 const TopPosts = () => {
   const { data: posts } = useQuery({
-    queryKey: "topPosts",
+    queryKey: ["topPosts"],
     queryFn: async () => {
-      const res = await fetch(
-        `https://social-media-server-nu.vercel.app/topPost`
-      );
-      const data = await res.json();
+      const { data } = await axios.get(`/topPost`);
       return data;
     },
   });
