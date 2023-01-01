@@ -4,7 +4,7 @@ import PostModal from "../../../shared/PostModal/PostModal";
 const AddPost = () => {
   const [mind, setMind] = useState(false);
   return (
-    <section className="my-2 p-5 border-y border-gray-700">
+    <section className="mt-2 p-5 border-y border-gray-700">
       {/* The button to open modal */}
       <label
         onClick={() => setMind(true)}

@@ -51,7 +51,7 @@ const PostDetails = () => {
     data["postedTime"] = moment().format("Do MMM YYYY, h:mm a");
     data["postId"] = _id;
     console.log(data);
-    fetch("http://localhost:5000/comment", {
+    fetch("https://social-media-server-nu.vercel.app/comment", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -69,9 +69,12 @@ const PostDetails = () => {
   //   }
   //handle like
   const handleLike = () => {
-    fetch(`http://localhost:5000/posts/like/${_id}?email=${user?.email}`, {
-      method: "PUT",
-    })
+    fetch(
+      `https://social-media-server-nu.vercel.app/posts/like/${_id}?email=${user?.email}`,
+      {
+        method: "PUT",
+      }
+    )
       .then((res) => res.json())
       .then((updateresult) => {
         console.log(updateresult);
@@ -117,7 +120,13 @@ const PostDetails = () => {
               } `}
               title="Like"
             />
-            <span className="ml-1">{postThis?.likes?.length}</span>
+            <span className="ml-1">
+              {postThis?.quantity ? (
+                postThis.quantity
+              ) : (
+                <span className="text-xs">Be the first one</span>
+              )}
+            </span>
           </div>
           <div className=" flex justify-start items-center ">
             <MdAddComment

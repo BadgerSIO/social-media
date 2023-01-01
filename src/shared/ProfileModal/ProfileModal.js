@@ -5,7 +5,11 @@ const ProfileModal = () => {
     <>
       {/* The button to open modal */}
 
-      <div className="modal" id="profileModal">
+      {/* The button to open modal */}
+
+      {/* Put this part before </body> tag */}
+      <input type="checkbox" id="profileModal" className="modal-toggle" />
+      <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="font-bold text-lg">
             Congratulations random Internet user!
@@ -15,9 +19,9 @@ const ProfileModal = () => {
             use Wikipedia for free!
           </p>
           <div className="modal-action">
-            <a href="#" className="btn">
+            <label htmlFor="profileModal" className="btn">
               Yay!
-            </a>
+            </label>
           </div>
         </div>
       </div>

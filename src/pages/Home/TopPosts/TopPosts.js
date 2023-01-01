@@ -12,9 +12,12 @@ const TopPosts = () => {
     },
   });
   return (
-    <section className="my-2">
+    <section>
       {posts?.length > 0 ? (
         <div>
+          <h2 className="p-5 border-b border-gray-700 bg-sky-500/10 capitalize">
+            Top 3 Trending post
+          </h2>
           {posts.map((post, i) => (
             <PostCards key={i} post={post}></PostCards>
           ))}

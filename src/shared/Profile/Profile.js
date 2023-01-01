@@ -5,7 +5,6 @@ import { FiEdit } from "react-icons/fi";
 import { GoHome } from "react-icons/go";
 import { AuthContext } from "../../context/AuthProvider";
 import { Link } from "react-router-dom";
-import Titles from "../../utilities/Titles";
 import ProfileModal from "../ProfileModal/ProfileModal";
 import axios from "../../axios";
 
@@ -28,9 +27,7 @@ const Profile = () => {
   } else {
     return (
       <section className="relative h-auto">
-        <div className="text-center">
-          <Titles>User Profile</Titles>
-        </div>
+        <h1 className="text-lg capitalize text-center font-bold">Profile</h1>
         {user && userInfo ? (
           <div className="card w-full bg-white/10 shadow-xl border p-3 border-gray-700 ">
             <figure>
@@ -62,12 +59,12 @@ const Profile = () => {
               )}
 
               <div className="card-actions justify-center">
-                <a
-                  href="#profileModal"
-                  className="btn btn-secondary btn-sm flex justify-center items-center"
+                <label
+                  htmlFor="profileModal"
+                  className="btn btn-secondary btn-sm flex justify-center items-center hover:bg-sky-500/20"
                 >
                   <FiEdit className="mr-1 -mt-1" /> Edit Profile
-                </a>
+                </label>
               </div>
             </div>
             <ProfileModal />
