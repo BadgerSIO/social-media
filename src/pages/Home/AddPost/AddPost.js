@@ -11,6 +11,9 @@ const AddPost = () => {
         htmlFor="post-modal"
         className="text-gray-400 cursor-pointer "
       >
+        <span className="animate-ping absolute -translate-y-[2px] -translate-x-2">
+          |
+        </span>
         Whats on your mind?
       </label>
       {mind ? <PostModal setMind={setMind}></PostModal> : <></>}

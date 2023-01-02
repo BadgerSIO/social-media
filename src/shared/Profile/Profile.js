@@ -21,6 +21,7 @@ const Profile = () => {
       console.log(data);
       return data;
     },
+    refetchOnWindowFocus: false,
   });
   if (isLoading || isFetching) {
     return <p>Loading</p>;
@@ -63,7 +64,8 @@ const Profile = () => {
                   htmlFor="profileModal"
                   className="btn btn-secondary btn-sm flex justify-center items-center hover:bg-sky-500/20"
                 >
-                  <FiEdit className="mr-1 -mt-1" /> Edit Profile
+                  <FiEdit className="mr-1 -mt-1" />{" "}
+                  <Link to="/profile">Edit Profile</Link>
                 </label>
               </div>
             </div>

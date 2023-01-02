@@ -4,6 +4,7 @@ import LoginRegister from "../pages/LoginRegister/LoginRegister";
 import Register from "../pages/LoginRegister/Register/Register";
 import Media from "../pages/Media/Media";
 import PostDetails from "../pages/PostDetails/PostDetails";
+import UserProfile from "../pages/UserProfile/UserProfile";
 import PrivateRoute from "./PrivateRoute";
 
 const { createBrowserRouter } = require("react-router-dom");
@@ -31,6 +32,14 @@ const router = createBrowserRouter([
         ),
         loader: async ({ params }) =>
           fetch(`https://social-media-server-nu.vercel.app/posts/${params.id}`),
+      },
+      {
+        path: "/profile",
+        element: (
+          <PrivateRoute>
+            <UserProfile />
+          </PrivateRoute>
+        ),
       },
     ],
   },

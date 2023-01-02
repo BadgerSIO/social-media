@@ -45,14 +45,25 @@ const Header = () => {
           </NavLink>
         </li>
         <li className="text-lg  p-2 rounded hover:bg-secondary">
-          <NavLink
-            to="/login"
-            end
-            className={({ isActive }) => (isActive ? activeNow : notActive)}
-          >
-            <MdOutlineAccountCircle className="text-2xl" />
-            <span className="hidden lg:block">Account</span>
-          </NavLink>
+          {user ? (
+            <NavLink
+              to="/profile"
+              end
+              className={({ isActive }) => (isActive ? activeNow : notActive)}
+            >
+              <MdOutlineAccountCircle className="text-2xl" />
+              <span className="hidden lg:block">Account</span>
+            </NavLink>
+          ) : (
+            <NavLink
+              to="/login"
+              end
+              className={({ isActive }) => (isActive ? activeNow : notActive)}
+            >
+              <MdOutlineAccountCircle className="text-2xl" />
+              <span className="hidden lg:block">Login</span>
+            </NavLink>
+          )}
         </li>
         {user?.uid ? (
           <li className="">
