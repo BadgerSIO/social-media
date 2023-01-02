@@ -15,7 +15,6 @@ const Profile = () => {
     queryKey: ["userinfo", "email", user],
     queryFn: async () => {
       const { data } = await axios.get(`/userinfo?email=${user?.email}`);
-      console.log(data);
       return data;
     },
     refetchOnWindowFocus: false,

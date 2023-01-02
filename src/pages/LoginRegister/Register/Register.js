@@ -10,7 +10,7 @@ import { toast } from "react-hot-toast";
 const Register = () => {
   const [file, setFile] = useState([]);
   const navigate = useNavigate();
-  const { signup, loading } = useContext(AuthContext);
+  const { signup } = useContext(AuthContext);
   let imghostKey = process.env.REACT_APP_imgbbkey;
   const handleChange = (e) => {
     setFile([...file, e.target.files[0]]);

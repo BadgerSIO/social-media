@@ -8,13 +8,13 @@ import { AuthContext } from "../../context/AuthProvider";
 const Header = () => {
   const { user, logout } = useContext(AuthContext);
   let activeNow =
-    "text-lg p-2 rounded bg-secondary flex justify-center lg:justify-start items-center space-x-3 text-primary font-semibold";
+    "text-lg p-2 rounded bg-secondary flex justify-center lg:justify-start items-center lg:space-x-3 text-primary font-semibold";
   let notActive =
-    "text-lg p-2 rounded hover:bg-secondary flex justify-center lg:justify-start items-center space-x-3 font-semibold";
+    "text-lg p-2 rounded hover:bg-secondary flex justify-center lg:justify-start items-center lg:space-x-3 font-semibold";
   return (
     <nav className="sticky top-0">
       <ul className="space-y-2">
-        <li className="text-lg  p-2 rounded hover:bg-secondary">
+        <li>
           <NavLink
             to="/"
             end
@@ -24,7 +24,7 @@ const Header = () => {
             <span className="hidden lg:block">Home</span>
           </NavLink>
         </li>
-        <li className="text-lg  p-2 rounded hover:bg-secondary">
+        <li>
           <NavLink
             to="/media"
             end
@@ -35,7 +35,7 @@ const Header = () => {
           </NavLink>
         </li>
         {user?.uid && (
-          <li className="text-lg  p-2 rounded hover:bg-secondary">
+          <li>
             <NavLink
               to="/messages"
               end
@@ -47,7 +47,7 @@ const Header = () => {
           </li>
         )}
 
-        <li className="text-lg  p-2 rounded hover:bg-secondary">
+        <li>
           {user ? (
             <NavLink
               to="/profile"
@@ -74,7 +74,7 @@ const Header = () => {
               onClick={logout}
               className="btn btn-secondary flex items-center p-2 w-full group"
             >
-              <BiLogOutCircle className="text-2xl mr-3 group-hover:mr-4" />
+              <BiLogOutCircle className="text-2xl mr-3 lg:group-hover:mr-4" />
               <span className="hidden lg:block">Logout</span>
             </button>
           </li>

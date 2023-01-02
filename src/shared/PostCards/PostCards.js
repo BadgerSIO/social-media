@@ -20,7 +20,7 @@ const PostCards = ({ post }) => {
           <p className="text-[10px] text-primary">{postTime}</p>
         </div>
       </div>
-      <h1>{postText}</h1>
+      <p className="text-sm lg:text-base">{postText}</p>
       <div className="bg-white/10 rounded-md">
         <img src={imageUrl} alt={postText} className="w-full" />
       </div>

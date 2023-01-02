@@ -1,10 +1,28 @@
-import React, { useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "../../axios";
+import React, { useContext, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { AuthContext } from "../../context/AuthProvider";
 import ProfileModal from "../../shared/ProfileModal/ProfileModal";
+import Loader from "../../utilities/Loader";
 
 const UserProfile = () => {
   const { user } = useContext(AuthContext);
+  const [current, setCurrent] = useState();
+  const {
+    data: userInfo,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["userinfo", "email", user],
+    queryFn: async () => {
+      const { data } = await axios.get(`/userinfo?email=${user?.email}`);
+      return data;
+    },
+  });
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <div>
@@ -13,23 +31,116 @@ const UserProfile = () => {
           <img
             src={user?.photoURL}
             className="w-28 h-28 rounded bg-gray-50 -mt-10"
-            alt=""
+            alt={user?.displayName}
+            onError={(e) =>
+              (e.target.src = "https://i.ibb.co/1KLYTtF/profilepic.webp")
+            }
           />
           <div>
             <h3 className="capitalize font-bold">{user?.displayName}</h3>
-            <h6>Designation</h6>
+            {userInfo?.designation ? (
+              <h6 className="flex">
+                {userInfo.designation}
+                <label
+                  htmlFor="profileModal"
+                  onClick={() => setCurrent("designation")}
+                  className="ml-2 cursor-pointer"
+                >
+                  <FaEdit className="mr-1" />
+                </label>
+              </h6>
+            ) : (
+              <label
+                htmlFor="profileModal"
+                onClick={() => setCurrent("designation")}
+                className="btn btn-secondary hover:bg-sky-500/20 flex items-center w-fit btn-sm"
+              >
+                <FaEdit className="mr-1" /> Add Designation
+              </label>
+            )}
           </div>
         </div>
-        <p className="px-5 border-b  border-gray-700 pb-5 text-justify">
-          <label
-            htmlFor="profileModal"
-            className="btn btn-secondary hover:bg-sky-500/20 flex items-center w-fit btn-sm"
-          >
-            <FaEdit className="mr-1" /> Add Bio
-          </label>
-        </p>
+        {/* Add bio  */}
+
+        <div className="px-5 border-b  border-gray-700 pb-5 text-justify">
+          {userInfo?.bio ? (
+            <p className="relative">
+              <label
+                htmlFor="profileModal"
+                onClick={() => setCurrent("bio")}
+                className="cursor-pointer absolute right-0 -top-1"
+              >
+                <FaEdit className="mr-1" />
+              </label>
+              <span className="block font-bold capitalize">Bio</span>
+              {userInfo.bio}
+            </p>
+          ) : (
+            <label
+              htmlFor="profileModal"
+              onClick={() => setCurrent("bio")}
+              className="btn btn-secondary hover:bg-sky-500/20 flex items-center w-fit btn-sm"
+            >
+              <FaEdit className="mr-1" /> Add bio
+            </label>
+          )}
+        </div>
+        {/* Add university  */}
+        <div className="p-5 border-b  border-gray-700 pb-5 text-justify">
+          {userInfo?.university ? (
+            <h6 className="relative capitalize">
+              <label
+                htmlFor="profileModal"
+                onClick={() => setCurrent("university")}
+                className="cursor-pointer absolute right-0 top-0"
+              >
+                <FaEdit className="mr-1" />
+              </label>
+              <span className="block font-bold ">university</span>
+              {userInfo.university}
+            </h6>
+          ) : (
+            <label
+              htmlFor="profileModal"
+              onClick={() => setCurrent("university")}
+              className="btn btn-secondary hover:bg-sky-500/20 flex items-center w-fit btn-sm"
+            >
+              <FaEdit className="mr-1" /> Add university
+            </label>
+          )}
+        </div>
+        {/* Add address  */}
+        <div className="p-5 border-b  border-gray-700 pb-5 text-justify">
+          {userInfo?.address ? (
+            <h6 className="relative capitalize">
+              <label
+                htmlFor="profileModal"
+                onClick={() => setCurrent("address")}
+                className="cursor-pointer absolute right-0 top-0"
+              >
+                <FaEdit className="mr-1" />
+              </label>
+              <span className="block font-bold ">address</span>
+              {userInfo.address}
+            </h6>
+          ) : (
+            <label
+              htmlFor="profileModal"
+              onClick={() => setCurrent("address")}
+              className="btn btn-secondary hover:bg-sky-500/20 flex items-center w-fit btn-sm"
+            >
+              <FaEdit className="mr-1" /> Add address
+            </label>
+          )}
+        </div>
       </div>
-      <ProfileModal />
+      {current && (
+        <ProfileModal
+          current={current}
+          setCurrent={setCurrent}
+          refetch={refetch}
+        />
+      )}
     </>
   );
 };

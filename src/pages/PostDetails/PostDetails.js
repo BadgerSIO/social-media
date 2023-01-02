@@ -50,7 +50,6 @@ const PostDetails = () => {
     data["authorImage"] = user?.photoURL;
     data["postedTime"] = moment().format("Do MMM YYYY, h:mm a");
     data["postId"] = _id;
-    console.log(data);
     fetch("https://social-media-server-nu.vercel.app/comment", {
       method: "POST",
       headers: {
@@ -64,9 +63,6 @@ const PostDetails = () => {
         reset();
       });
   };
-  //   if (postThis?.likes?.includes(user?.email)) {
-  //     setLikeBtn(true);
-  //   }
   //handle like
   const handleLike = () => {
     fetch(
@@ -77,8 +73,6 @@ const PostDetails = () => {
     )
       .then((res) => res.json())
       .then((updateresult) => {
-        console.log(updateresult);
-        // setLikeBtn(!likeBtn);
         likeRefetch();
       })
       .catch((err) => console.error(err));
@@ -100,7 +94,7 @@ const PostDetails = () => {
         </div>
       </div>
       <div className="p-5 space-y-3">
-        <p>{postText}</p>
+        <p className="text-sm">{postText}</p>
         <div className="bg-white/10 rounded-md">
           <img src={imageUrl} alt={postText} className="w-full" />
         </div>
