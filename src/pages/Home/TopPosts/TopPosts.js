@@ -2,15 +2,19 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "../../../axios";
 import React from "react";
 import PostCards from "../../../shared/PostCards/PostCards";
+import Loader from "../../../utilities/Loader";
 
 const TopPosts = () => {
-  const { data: posts } = useQuery({
+  const { data: posts, isLoading } = useQuery({
     queryKey: ["topPosts"],
     queryFn: async () => {
       const { data } = await axios.get(`/topPost`);
       return data;
     },
   });
+  if (isLoading) {
+    return <Loader isLoading={isLoading} />;
+  }
   return (
     <section>
       {posts?.length > 0 ? (

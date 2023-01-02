@@ -3,6 +3,7 @@ import Login from "../pages/LoginRegister/Login/Login";
 import LoginRegister from "../pages/LoginRegister/LoginRegister";
 import Register from "../pages/LoginRegister/Register/Register";
 import Media from "../pages/Media/Media";
+import Messages from "../pages/Messages/Messages";
 import PostDetails from "../pages/PostDetails/PostDetails";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import PrivateRoute from "./PrivateRoute";
@@ -38,6 +39,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <UserProfile />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/messages",
+        element: (
+          <PrivateRoute>
+            <Messages />
           </PrivateRoute>
         ),
       },

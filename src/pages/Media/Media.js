@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import Titles from "../../utilities/Titles";
 import PostCards from "../../shared/PostCards/PostCards";
+import Loader from "../../utilities/Loader";
 const Media = () => {
   const { data: posts, isLoading } = useQuery({
     queryKey: ["post"],
@@ -14,7 +15,7 @@ const Media = () => {
     },
   });
   if (isLoading) {
-    return <h1>Loading</h1>;
+    return <Loader />;
   }
   return (
     <section>

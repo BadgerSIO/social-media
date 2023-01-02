@@ -34,16 +34,19 @@ const Header = () => {
             <span className="hidden lg:block">Media</span>
           </NavLink>
         </li>
-        <li className="text-lg  p-2 rounded hover:bg-secondary">
-          <NavLink
-            to="/messages"
-            end
-            className={({ isActive }) => (isActive ? activeNow : notActive)}
-          >
-            <TbMessages className="text-2xl" />{" "}
-            <span className="hidden lg:block">Message</span>
-          </NavLink>
-        </li>
+        {user?.uid && (
+          <li className="text-lg  p-2 rounded hover:bg-secondary">
+            <NavLink
+              to="/messages"
+              end
+              className={({ isActive }) => (isActive ? activeNow : notActive)}
+            >
+              <TbMessages className="text-2xl" />{" "}
+              <span className="hidden lg:block">Message</span>
+            </NavLink>
+          </li>
+        )}
+
         <li className="text-lg  p-2 rounded hover:bg-secondary">
           {user ? (
             <NavLink

@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { useLoaderData } from "react-router-dom";
+import { ScrollRestoration, useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import moment from "moment";
 import { useQuery } from "@tanstack/react-query";
@@ -8,10 +8,10 @@ import axios from "../../axios";
 import ReviewCard from "./ReviewCard";
 import { AiFillHeart } from "react-icons/ai";
 import { MdAddComment } from "react-icons/md";
+import Loader from "../../utilities/Loader";
 
 const PostDetails = () => {
   const post = useLoaderData();
-  //   const [likeBtn, setLikeBtn] = useState(false);
   const { imageUrl, postText, postTime, _id, authorImage, authorName } = post;
 
   const {
@@ -19,7 +19,7 @@ const PostDetails = () => {
     isLoading: loadingLike,
     refetch: likeRefetch,
   } = useQuery({
-    queryKey: ["posts"],
+    queryKey: ["posts", "_id"],
     queryFn: async () => {
       const res = await axios.get(`/posts/${_id}`);
       return res.data;
@@ -84,7 +84,7 @@ const PostDetails = () => {
       .catch((err) => console.error(err));
   };
   if (isLoading || loadingLike) {
-    return <div>Loading</div>;
+    return <Loader />;
   }
   return (
     <section>
@@ -157,6 +157,7 @@ const PostDetails = () => {
       ) : (
         <p>No reviews yet</p>
       )}
+      <ScrollRestoration />
     </section>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { BiHomeCircle, BiLogInCircle } from "react-icons/bi";
+import { BiHomeCircle } from "react-icons/bi";
 import { FaGoogle } from "react-icons/fa";
 import { CgFeed } from "react-icons/cg";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -71,7 +71,7 @@ const LoginRegister = () => {
               <p>OR</p>
               <button
                 onClick={handleGoogleSignUp}
-                className="btn btn-secondary btn-sm absolute left-2/4 -translate-x-2/4 flex justify-center items-center hover:bg-gradient-to-r from-yellow-500/20 via-indigo-500/20  to-red-500/20 "
+                className="btn btn-secondary btn-sm mx-auto flex justify-center items-center hover:bg-gradient-to-r from-yellow-500/20 via-indigo-500/20  to-red-500/20 "
               >
                 <FaGoogle className="mr-2 -mt-1" /> Signin with google
               </button>

@@ -7,14 +7,11 @@ import { AuthContext } from "../../context/AuthProvider";
 import { Link } from "react-router-dom";
 import ProfileModal from "../ProfileModal/ProfileModal";
 import axios from "../../axios";
+import Loader from "../../utilities/Loader";
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
-  const {
-    data: userInfo,
-    isLoading,
-    isFetching,
-  } = useQuery({
+  const { data: userInfo, isLoading } = useQuery({
     queryKey: ["userinfo", "email", user],
     queryFn: async () => {
       const { data } = await axios.get(`/userinfo?email=${user?.email}`);
@@ -23,8 +20,8 @@ const Profile = () => {
     },
     refetchOnWindowFocus: false,
   });
-  if (isLoading || isFetching) {
-    return <p>Loading</p>;
+  if (isLoading) {
+    return <Loader />;
   } else {
     return (
       <section className="relative h-auto">
