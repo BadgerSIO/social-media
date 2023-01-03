@@ -30,16 +30,17 @@ const UserProfile = () => {
         <div className="flex justify-start  z-10 items-start p-5 space-x-5">
           <img
             src={user?.photoURL}
-            className="w-28 h-28 rounded bg-gray-50 -mt-10"
+            className="w-24 h-24 lg:w-28 lg:h-28 rounded bg-gray-50 -mt-10"
             alt={user?.displayName}
             onError={(e) =>
               (e.target.src = "https://i.ibb.co/1KLYTtF/profilepic.webp")
             }
           />
+          {/* Add designation  */}
           <div>
             <h3 className="capitalize font-bold">{user?.displayName}</h3>
             {userInfo?.designation ? (
-              <h6 className="flex">
+              <h6 className="flex text-xs md:text-sm lg:text-base">
                 {userInfo.designation}
                 <label
                   htmlFor="profileModal"
@@ -61,10 +62,9 @@ const UserProfile = () => {
           </div>
         </div>
         {/* Add bio  */}
-
-        <div className="px-5 border-b  border-gray-700 pb-5 text-justify">
+        <div className="px-5 border-y  border-gray-700 py-5 ">
           {userInfo?.bio ? (
-            <p className="relative">
+            <p className="relative text-sm lg:text-base text-gray-300">
               <label
                 htmlFor="profileModal"
                 onClick={() => setCurrent("bio")}
@@ -72,7 +72,9 @@ const UserProfile = () => {
               >
                 <FaEdit className="mr-1" />
               </label>
-              <span className="block font-bold capitalize">Bio</span>
+              <span className="block font-bold capitalize text-sky-500">
+                Bio
+              </span>
               {userInfo.bio}
             </p>
           ) : (
@@ -88,7 +90,7 @@ const UserProfile = () => {
         {/* Add university  */}
         <div className="p-5 border-b  border-gray-700 pb-5 text-justify">
           {userInfo?.university ? (
-            <h6 className="relative capitalize">
+            <h6 className="relative capitalize text-gray-300">
               <label
                 htmlFor="profileModal"
                 onClick={() => setCurrent("university")}
@@ -96,7 +98,7 @@ const UserProfile = () => {
               >
                 <FaEdit className="mr-1" />
               </label>
-              <span className="block font-bold ">university</span>
+              <span className="block font-bold text-sky-500">university</span>
               {userInfo.university}
             </h6>
           ) : (
@@ -112,7 +114,7 @@ const UserProfile = () => {
         {/* Add address  */}
         <div className="p-5 border-b  border-gray-700 pb-5 text-justify">
           {userInfo?.address ? (
-            <h6 className="relative capitalize">
+            <h6 className="relative capitalize text-gray-300">
               <label
                 htmlFor="profileModal"
                 onClick={() => setCurrent("address")}
@@ -120,7 +122,7 @@ const UserProfile = () => {
               >
                 <FaEdit className="mr-1" />
               </label>
-              <span className="block font-bold ">address</span>
+              <span className="block font-bold text-sky-500 ">address</span>
               {userInfo.address}
             </h6>
           ) : (

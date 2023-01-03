@@ -23,7 +23,6 @@ const Profile = () => {
   } else {
     return (
       <section className="relative h-auto">
-        <h1 className="text-lg capitalize text-center font-bold">Profile</h1>
         {user && userInfo ? (
           <div className="card w-full bg-white/10 shadow-xl border p-3 border-gray-700 ">
             <figure>
@@ -64,6 +63,9 @@ const Profile = () => {
           </div>
         ) : (
           <div className="text-center space-y-4">
+            <h1 className="text-lg capitalize text-center font-bold">
+              Profile
+            </h1>
             <p>You are not logged in</p>
 
             <Link className="btn btn-primary btn-sm" to="/login">

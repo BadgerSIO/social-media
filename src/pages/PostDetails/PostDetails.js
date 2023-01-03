@@ -94,7 +94,7 @@ const PostDetails = () => {
         </div>
       </div>
       <div className="p-5 space-y-3">
-        <p className="text-sm">{postText}</p>
+        <p className="text-sm lg:text-base">{postText}</p>
         <div className="bg-white/10 rounded-md">
           <img src={imageUrl} alt={postText} className="w-full" />
         </div>
