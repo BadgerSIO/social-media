@@ -5,7 +5,6 @@ import { FiEdit } from "react-icons/fi";
 import { GoHome } from "react-icons/go";
 import { AuthContext } from "../../context/AuthProvider";
 import { Link } from "react-router-dom";
-import ProfileModal from "../ProfileModal/ProfileModal";
 import axios from "../../axios";
 import Loader from "../../utilities/Loader";
 
@@ -56,16 +55,12 @@ const Profile = () => {
               )}
 
               <div className="card-actions justify-center">
-                <label
-                  htmlFor="profileModal"
-                  className="btn btn-secondary btn-sm flex justify-center items-center hover:bg-sky-500/20"
-                >
-                  <FiEdit className="mr-1 -mt-1" />{" "}
+                <button className="btn btn-secondary btn-sm flex justify-center items-center hover:bg-sky-500/20">
+                  <FiEdit className="mr-1 -mt-1" />
                   <Link to="/profile">Edit Profile</Link>
-                </label>
+                </button>
               </div>
             </div>
-            <ProfileModal />
           </div>
         ) : (
           <div className="text-center space-y-4">
