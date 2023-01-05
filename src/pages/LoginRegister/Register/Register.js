@@ -6,14 +6,28 @@ import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import { AuthContext } from "../../../context/AuthProvider";
 import { toast } from "react-hot-toast";
+import { CgClose } from "react-icons/cg";
 
 const Register = () => {
   const [file, setFile] = useState([]);
+  const [err, setErr] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
   const navigate = useNavigate();
   const { signup } = useContext(AuthContext);
   let imghostKey = process.env.REACT_APP_imgbbkey;
   const handleChange = (e) => {
+    if (e.target.files[0].size > 204800) {
+      fileInputRef.current.value = "";
+      return toast.error("Image size must be under 200Kb");
+    }
+    setImgUrl(URL.createObjectURL(e.target.files[0]));
+    setErr("");
     setFile([...file, e.target.files[0]]);
+  };
+  const deleteImg = () => {
+    fileInputRef.current.value = "";
+    setFile("");
+    setImgUrl("");
   };
 
   const {
@@ -23,6 +37,11 @@ const Register = () => {
     reset,
   } = useForm();
   const signinUser = (data) => {
+    if (file.length === 0) {
+      setErr("Upload your picture first");
+
+      return;
+    }
     if (file.length) {
       const image = file[0];
       const formdata = new FormData();
@@ -52,8 +71,6 @@ const Register = () => {
             .catch((err) => console.log(err));
         });
     }
-
-    reset();
   };
   const addToDb = (userInfo) => {
     fetch("https://social-media-server-nu.vercel.app/user", {
@@ -66,6 +83,7 @@ const Register = () => {
       .then((res) => res.json())
       .then((resdata) => {
         if (resdata?.acknowledged) {
+          reset();
           return toast.success("Registered Successfully");
         }
         toast.error("Failed to Register");
@@ -171,19 +189,28 @@ const Register = () => {
             onChange={handleChange}
           />
           <div className="text-center">
-            <button
-              type="button"
-              onClick={handleButtonClick}
-              className="btn btn-secondary btn-sm "
-            >
-              <FaUpload className="mr-2 -mt-1" /> Upload Profile picture
-            </button>
+            {imgUrl ? (
+              <div className="flex items-start justify-center">
+                <img src={imgUrl} alt="" className="w-14" />
+                <button type="button" onClick={deleteImg}>
+                  <CgClose />
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={handleButtonClick}
+                className="btn btn-secondary btn-sm "
+              >
+                <FaUpload className="mr-2 -mt-1" /> Upload Profile picture
+              </button>
+            )}
+            {err && (
+              <p className="text-red-500">
+                <small>{err}</small>
+              </p>
+            )}
           </div>
-          {errors?.imageUrl && (
-            <p className="text-red-500">
-              <small>Field is required</small>
-            </p>
-          )}
         </div>
         <div className="flex justify-center mt-5">
           <button

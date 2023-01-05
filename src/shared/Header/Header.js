@@ -12,7 +12,7 @@ const Header = () => {
   let notActive =
     "text-lg p-2 rounded hover:bg-secondary flex justify-center lg:justify-start items-center lg:space-x-3 font-semibold";
   return (
-    <nav className="sticky top-0">
+    <nav className="sticky top-5">
       <ul className="space-y-2">
         <li>
           <NavLink

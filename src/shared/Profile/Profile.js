@@ -10,7 +10,11 @@ import Loader from "../../utilities/Loader";
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
-  const { data: userInfo, isLoading } = useQuery({
+  const {
+    data: userInfo,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["userinfo", "email", user],
     queryFn: async () => {
       const { data } = await axios.get(`/userinfo?email=${user?.email}`);
@@ -18,11 +22,12 @@ const Profile = () => {
     },
     refetchOnWindowFocus: false,
   });
+  refetch();
   if (isLoading) {
     return <Loader />;
   } else {
     return (
-      <section className="relative h-auto">
+      <section className=" h-auto sticky top-5">
         {user && userInfo ? (
           <div className="card w-full bg-white/10 shadow-xl border p-3 border-gray-700 ">
             <figure>
@@ -54,10 +59,13 @@ const Profile = () => {
               )}
 
               <div className="card-actions justify-center">
-                <button className="btn btn-secondary btn-sm flex justify-center items-center hover:bg-sky-500/20">
+                <Link
+                  className="btn btn-secondary btn-sm flex justify-center items-center hover:bg-sky-500/20"
+                  to="/profile"
+                >
                   <FiEdit className="mr-1 -mt-1" />
-                  <Link to="/profile">Edit Profile</Link>
-                </button>
+                  Edit Profile
+                </Link>
               </div>
             </div>
           </div>
