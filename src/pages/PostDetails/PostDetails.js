@@ -26,7 +26,6 @@ const PostDetails = () => {
     },
   });
   const { user } = useContext(AuthContext);
-
   const {
     data: reviews,
     isLoading,
@@ -90,7 +89,9 @@ const PostDetails = () => {
         </div>
         <div className="flex-grow">
           <h1 className="font-bold">{authorName}</h1>
-          <p className="text-[10px] text-primary">{postTime}</p>
+          <p className="text-[10px] text-primary font-semibold">
+            <span className="text-white"> Posted On:</span> {postTime}
+          </p>
         </div>
       </div>
       <div className="p-5 space-y-3">
@@ -98,9 +99,9 @@ const PostDetails = () => {
         <div className="bg-white/10 rounded-md">
           <img src={imageUrl} alt={postText} className="w-full" />
         </div>
-        <p>
+        {/* <p>
           <small>Posted on : {postTime}</small>
-        </p>
+        </p> */}
         <div className="flex justify-start space-x-5">
           <div
             onClick={handleLike}
